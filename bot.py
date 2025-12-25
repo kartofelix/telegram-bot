@@ -23,6 +23,19 @@ from db import (
     add_rep,
     get_rep,
 )
+
+# ================== BOT ==================
+import os
+from aiogram import Bot, Dispatcher
+
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+
+if not BOT_TOKEN:
+    raise ValueError("BOT_TOKEN не заданий")
+
+bot = Bot(token=BOT_TOKEN)
+dp = Dispatcher()
+
 # ================== АВТОПОСТ ==================
 def seconds_until_next_monday():
     now = datetime.utcnow()
@@ -48,7 +61,7 @@ async def weekly_topbad_autopost():
 
     while True:
         # 🔥 ТУТ ТИ МОЖЕШ ЗАМІНИТИ chat_id НА СВІЙ
-        CHAT_ID =   # 👈 ID групи
+        CHAT_ID = int(os.getenv("CHAT_ID"))
 
         # беремо минулі 7 днів
         users = get_top_swear_users(CHAT_ID, days=7)
@@ -68,7 +81,7 @@ async def weekly_topbad_autopost():
 
 # ================== НАСТРОЙКИ ==================
 
-SPECIAL_420_USER_ID =   # ID для очівки 420
+SPECIAL_420_USER_ID = 7154333160 # ID для очівки 420
 
 REP_PLUS = {"+", "реп", "зов"}
 REP_MINUS = {"-", "не реп", "хуйня"}
@@ -99,11 +112,6 @@ BAD_REGEX = re.compile("|".join(BAD_PATTERNS), re.IGNORECASE)
 def contains_bad_words(text: str) -> bool:
     text = text.lower()
     return any(re.search(p, text) for p in BAD_PATTERNS)
-
-# ================== BOT ==================
-
-bot = Bot(BOT_TOKEN)
-dp = Dispatcher()
 
 # ================== КОМАНДИ ==================
 
@@ -210,7 +218,7 @@ async def bad_debug(msg: Message):
         return
 
                # ID chat
-    CHAT_ID =
+    CHAT_ID = int(os.getenv("CHAT_ID"))
 
     users, total = get_swear_stats(CHAT_ID, days=7)
 
