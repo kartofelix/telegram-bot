@@ -48,7 +48,7 @@ async def weekly_topbad_autopost():
 
     while True:
         # 🔥 ТУТ ТИ МОЖЕШ ЗАМІНИТИ chat_id НА СВІЙ
-        CHAT_ID = -1002033314835  # 👈 ID групи
+        CHAT_ID =   # 👈 ID групи
 
         # беремо минулі 7 днів
         users = get_top_swear_users(CHAT_ID, days=7)
@@ -68,7 +68,7 @@ async def weekly_topbad_autopost():
 
 # ================== НАСТРОЙКИ ==================
 
-SPECIAL_420_USER_ID = 7154333160  # ID для очівки 420
+SPECIAL_420_USER_ID =   # ID для очівки 420
 
 REP_PLUS = {"+", "реп", "зов"}
 REP_MINUS = {"-", "не реп", "хуйня"}
@@ -210,7 +210,7 @@ async def bad_debug(msg: Message):
         return
 
                # ID chat
-    CHAT_ID = -1002033314835
+    CHAT_ID =
 
     users, total = get_swear_stats(CHAT_ID, days=7)
 
