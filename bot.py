@@ -25,7 +25,7 @@ from db import (
 )
 
 # ================== BOT ==================
-
+import os
 from config import BOT_TOKEN, CHAT_ID
 from aiogram import Bot, Dispatcher
 
