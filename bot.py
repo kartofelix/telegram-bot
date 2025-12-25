@@ -25,15 +25,11 @@ from db import (
 )
 
 # ================== BOT ==================
-import os
+
+from config import BOT_TOKEN, CHAT_ID
 from aiogram import Bot, Dispatcher
 
-BOT_TOKEN = os.getenv("BOT_TOKEN")
-
-if not BOT_TOKEN:
-    raise ValueError("BOT_TOKEN не заданий")
-
-bot = Bot(token=BOT_TOKEN)
+bot = Bot(BOT_TOKEN)
 dp = Dispatcher()
 
 # ================== АВТОПОСТ ==================
