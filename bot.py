@@ -76,11 +76,6 @@ async def weekly_topbad_autopost():
         await asyncio.sleep(7 * 24 * 60 * 60)
 
 # ================== НАСТРОЙКИ ==================
-BAD_REGEX = re.compile(
-    r"|".join(BAD_PATTERNS),
-    flags=re.IGNORECASE
-)
-
 SPECIAL_420_USER_ID = 7154333160 # ID для очівки 420
 
 REP_PLUS = {"+", "реп", "зов"}
@@ -109,11 +104,6 @@ BAD_PATTERNS = [
 ]
 
 BAD_REGEX = re.compile("|".join(BAD_PATTERNS), re.IGNORECASE)
-
-def contains_bad_words(text: str) -> bool:
-    text = text.lower()
-    return any(re.search(p, text) for p in BAD_PATTERNS)
-
 # ================== КОМАНДИ ==================
 
 @dp.message(Command("commandss"), F.chat.type.in_({"group", "supergroup"}))
@@ -321,3 +311,4 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+
