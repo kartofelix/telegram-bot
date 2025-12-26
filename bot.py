@@ -275,9 +275,12 @@ async def log_all_messages(msg: Message):
     text = (msg.text or "").lower()
 
     # 🔥 1. РАХУЄМО КОЖЕН МАТЮК
-bad_count = 0
-for pattern in BAD_PATTERNS:
-    bad_count += len(re.findall(pattern, text, flags=re.IGNORECASE))
+    bad_count = 0
+
+    for pattern in BAD_PATTERNS:
+         matches = re.findall(pattern, text, flags=re.IGNORECASE)
+         bad_count += len(matches)
+
     
     if bad_count > 0:
         log_swear(chat_id, user_id, username, bad_count)
@@ -310,6 +313,7 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+
 
 
 
