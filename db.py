@@ -184,7 +184,7 @@ def top_users_with_total(chat_id: int, hours: int, limit=5):
 
     cursor.execute(
         """
-        SELECT username, COUNT(*)
+        SELECT username, COUNT(*) AS c
         FROM events
         WHERE chat_id = ?
           AND event_type = 'message'
@@ -238,7 +238,7 @@ def get_top_swear_users(chat_id: int, days: int, limit: int = 5):
 
     cursor.execute(
         """
-        SELECT username, SUM(count) as c
+        SELECT username, SUM(count) AS c
         FROM swear_events
         WHERE chat_id = ?
           AND created_at >= ?
@@ -255,7 +255,7 @@ def top_swearers_week(chat_id: int, limit=3):
 
     cursor.execute(
         """
-        SELECT username, SUM(count) as c
+        SELECT username, SUM(count) AS c
         FROM swear_events
         WHERE chat_id = ?
           AND created_at >= ?
@@ -279,7 +279,7 @@ def get_top_swearers_last_week(chat_id: int, limit=3):
 
     cursor.execute(
         """
-        SELECT username, SUM(count) as c
+        SELECT username, SUM(count) AS c
         FROM swear_events
         WHERE chat_id = ?
           AND DATE(created_at) >= ?
@@ -300,7 +300,7 @@ def get_swear_stats(chat_id: int, days: int):
 
     cursor.execute(
         """
-        SELECT username, COUNT(*) as c
+        SELECT username, COUNT(*) AS c
         FROM swear_events
         WHERE chat_id = ?
           AND created_at >= ?
@@ -323,5 +323,6 @@ def get_swear_stats(chat_id: int, days: int):
     total = cursor.fetchone()[0]
 
     return users, total
+
 
 
