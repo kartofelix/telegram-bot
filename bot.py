@@ -274,7 +274,6 @@ async def my_achievements(msg: Message):
     await msg.answer(text, parse_mode="HTML")
 
 # ================== ЛОГ ВСЬОГО ==================
-
 @dp.message(F.chat.type.in_({"group", "supergroup"}))
 async def log_all_messages(msg: Message):
     if not msg.from_user:
@@ -283,19 +282,16 @@ async def log_all_messages(msg: Message):
     chat_id = msg.chat.id
     user_id = msg.from_user.id
     username = msg.from_user.username or msg.from_user.first_name
-    text = msg.text or ""
+    text = (msg.text or "").lower()
 
-    # 🔥 1. ЛОГУЄМО МАТЮКИ (ЗАВЖДИ)
-text = (msg.text or "").lower()
+    # ❌ НЕ РАХУЄМО КОМАНДИ ЯК ПОВІДОМЛЕННЯ
+    if text.startswith("/"):
+        return
 
-# ❌ НЕ РАХУЄМО КОМАНДИ
-if text.startswith("/"):
-
-# 🔥 ЛОГУЄМО МАТЮКИ (КОЖНЕ СЛОВО)
-bad_count = len(BAD_REGEX.findall(text))
-if bad_count > 0:
-    log_swear(chat_id, user_id, username, bad_count)
-
+    # 🔥 1. РАХУЄМО КОЖЕН МАТЮК
+    bad_count = len(BAD_REGEX.findall(text))
+    if bad_count > 0:
+        log_swear(chat_id, user_id, username, bad_count)
 
     # 🔹 2. ЛОГУЄМО ЗВИЧАЙНЕ ПОВІДОМЛЕННЯ
     log_message(chat_id, user_id, username)
@@ -316,7 +312,6 @@ if bad_count > 0:
                 f"<b>{title}</b>\n{desc}",
                 parse_mode="HTML"
             )
-
 # ================== START ==================
 
 async def main():
@@ -326,9 +321,3 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
-
-
-
-
-
-
