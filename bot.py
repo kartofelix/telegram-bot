@@ -274,18 +274,20 @@ async def log_all_messages(msg: Message):
     username = msg.from_user.username or msg.from_user.first_name
     text = (msg.text or "").lower()
 
-    # 🔥 1. РАХУЄМО КОЖЕН МАТЮК
+    # ❌ не рахуємо команди
+    if text.startswith("/"):
+        return
+
+    # 🔥 РАХУЄМО КОЖЕН МАТЮК
     bad_count = 0
-
     for pattern in BAD_PATTERNS:
-         matches = re.findall(pattern, text, flags=re.IGNORECASE)
-         bad_count += len(matches)
+        matches = re.findall(pattern, text, flags=re.IGNORECASE)
+        bad_count += len(matches)
 
-    
     if bad_count > 0:
         log_swear(chat_id, user_id, username, bad_count)
 
-    # 🔹 2. ЛОГУЄМО ПОВІДОМЛЕННЯ (навіть якщо це команда)
+    # 🔹 лог звичайного повідомлення
     log_message(chat_id, user_id, username)
 
     # 🔹 3. ОЧІВКИ
@@ -313,6 +315,7 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+
 
 
 
