@@ -274,16 +274,12 @@ async def log_all_messages(msg: Message):
     username = msg.from_user.username or msg.from_user.first_name
     text = (msg.text or "").lower()
 
-    # ❌ НЕ РАХУЄМО КОМАНДИ ЯК ПОВІДОМЛЕННЯ
-    if text.startswith("/"):
-        return
-
     # 🔥 1. РАХУЄМО КОЖЕН МАТЮК
-    bad_count = len(BAD_REGEX.findall(text))
+    bad_count = sum(1 for _ in BAD_REGEX.finditer(text))
     if bad_count > 0:
         log_swear(chat_id, user_id, username, bad_count)
 
-    # 🔹 2. ЛОГУЄМО ЗВИЧАЙНЕ ПОВІДОМЛЕННЯ
+    # 🔹 2. ЛОГУЄМО ПОВІДОМЛЕННЯ (навіть якщо це команда)
     log_message(chat_id, user_id, username)
 
     # 🔹 3. ОЧІВКИ
@@ -311,4 +307,5 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+
 
