@@ -286,7 +286,7 @@ async def log_all_messages(msg: Message):
     text = msg.text or ""
 
     # 🔥 1. ЛОГУЄМО МАТЮКИ (ЗАВЖДИ)
-    if text:
+if text:
     bad_count = len(BAD_REGEX.findall(text))
     if bad_count > 0:
         log_swear(chat_id, user_id, username, bad_count)
@@ -324,6 +324,7 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+
 
 
 
