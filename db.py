@@ -5,6 +5,7 @@ conn = sqlite3.connect("analytics.db", check_same_thread=False)
 cursor = conn.cursor()
 
 # ================== TABLES ==================
+ALTER TABLE swear_events ADD COLUMN count INTEGER DEFAULT 1;
 
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS events (
@@ -214,13 +215,13 @@ def get_user_achievements(chat_id: int, user_id: int):
     )
     return cursor.fetchall()
 
-def log_swear(chat_id: int, user_id: int, username: str):
+def log_swear(chat_id, user_id, username, count):
     cursor.execute(
         """
-        INSERT INTO swear_events (chat_id, user_id, username, created_at)
-        VALUES (?, ?, ?, ?)
+        INSERT INTO swear_events (chat_id, user_id, username, count, created_at)
+        VALUES (?, ?, ?, ?, ?)
         """,
-        (chat_id, user_id, username, datetime.utcnow().isoformat())
+        (chat_id, user_id, username, count, datetime.utcnow().isoformat())
     )
     conn.commit()
 
@@ -314,3 +315,4 @@ def get_swear_stats(chat_id: int, days: int):
     total = cursor.fetchone()[0]
 
     return users, total
+
