@@ -290,7 +290,6 @@ text = (msg.text or "").lower()
 
 # ❌ НЕ РАХУЄМО КОМАНДИ
 if text.startswith("/"):
-    return
 
 # 🔥 ЛОГУЄМО МАТЮКИ (КОЖНЕ СЛОВО)
 bad_count = len(BAD_REGEX.findall(text))
@@ -327,6 +326,7 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+
 
 
 
