@@ -286,14 +286,17 @@ async def log_all_messages(msg: Message):
     text = msg.text or ""
 
     # 🔥 1. ЛОГУЄМО МАТЮКИ (ЗАВЖДИ)
-if text:
-    bad_count = len(BAD_REGEX.findall(text))
-    if bad_count > 0:
-        log_swear(chat_id, user_id, username, bad_count)
+text = (msg.text or "").lower()
 
-    # ❌ НЕ РАХУЄМО КОМАНДИ ЯК ПОВІДОМЛЕННЯ
-    if text.startswith("/"):
-        return
+# ❌ НЕ РАХУЄМО КОМАНДИ
+if text.startswith("/"):
+    return
+
+# 🔥 ЛОГУЄМО МАТЮКИ (КОЖНЕ СЛОВО)
+bad_count = len(BAD_REGEX.findall(text))
+if bad_count > 0:
+    log_swear(chat_id, user_id, username, bad_count)
+
 
     # 🔹 2. ЛОГУЄМО ЗВИЧАЙНЕ ПОВІДОМЛЕННЯ
     log_message(chat_id, user_id, username)
@@ -324,6 +327,7 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+
 
 
 
